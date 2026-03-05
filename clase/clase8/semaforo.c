@@ -29,7 +29,6 @@ int main(void)
 
     datos_compartidos->variable = 0;
 
-    // Inicializar atributos del mutex para procesos
     pthread_mutexattr_t attr;
     pthread_mutexattr_init(&attr);
     pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_SHARED);
@@ -55,13 +54,12 @@ int main(void)
         exit(0);
     }
 
-    // Esperar a los dos procesos hijos
     waitpid(suma, NULL, 0);
     waitpid(resta, NULL, 0);
 
     printf("Valor final de la variable: %d\n", datos_compartidos->variable);
 
-    // Limpiar
+
     pthread_mutex_destroy(&datos_compartidos->mutex);
     pthread_mutexattr_destroy(&attr);
     munmap(datos_compartidos, sizeof(compartido_t));
