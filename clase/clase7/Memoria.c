@@ -23,27 +23,27 @@ int main() {
 
     pid_t escritor = fork();
     if (escritor == 0) {
-        // Proceso escritor
-        *shared_mem = 42;  // Escribir un número en la memoria compartida
+        
+        *shared_mem = 42; 
         printf("(Escritor) Número escrito: %d\n", *shared_mem);
-        pause(); // Esperar señal de terminación
+        pause(); 
         exit(0);
     }
 
     pid_t lector = fork();
     if (lector == 0) {
-        // Proceso lector
-        sleep(1);  // Asegurar que el escritor haya escrito el número
+        
+        sleep(1);  
         printf("(Lector) Número leído: %d\n", *shared_mem);
-        pause(); // Esperar señal de terminación
+        pause(); 
         exit(0);
     }
 
-    // Proceso padre
+    
     printf("Pulse Enter para salir...\n");
-    getchar();  // Esperar la tecla Enter
+    getchar(); 
 
-    // Terminar los procesos hijos
+
     kill(escritor, SIGUSR1);
     kill(lector, SIGUSR1);
     wait(NULL);
